@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>M.KING News Bulletin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -12,153 +13,183 @@
     }
     
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       padding: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
-      animation: backgroundShift 10s ease-in-out infinite alternate;
-    }
-    
-    @keyframes backgroundShift {
-      0% { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-      100% { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
     }
     
     .bulletin-container {
       width: 100%;
-      max-width: 900px;
+      max-width: 600px;
       position: relative;
     }
     
     .bulletin {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 24px;
-      padding: 40px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-      position: relative;
+      background: white;
+      border-radius: 16px;
       overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .bulletin:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
-    }
-    
-    .bulletin::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
-      background-size: 200% 100%;
-      animation: gradientMove 3s ease-in-out infinite;
-    }
-    
-    @keyframes gradientMove {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-    
-    .header {
-      text-align: center;
-      margin-bottom: 40px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
       position: relative;
-    }
-    
-    .logo-container {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 20px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 50%;
+      min-height: 800px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-      position: relative;
-      overflow: hidden;
-      animation: logoFloat 6s ease-in-out infinite;
+      flex-direction: column;
     }
     
-    @keyframes logoFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-    
-    .logo-container::before {
-      content: '';
+    /* Watermark Logo */
+    .watermark {
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transform: rotate(45deg);
-      animation: shine 4s ease-in-out infinite;
-    }
-    
-    @keyframes shine {
-      0%, 100% { transform: rotate(45deg) translateX(-200%); }
-      50% { transform: rotate(45deg) translateX(200%); }
-    }
-    
-    .logo-text {
-      font-size: 32px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.05;
+      z-index: 1;
+      font-size: 120px;
       font-weight: 900;
-      color: white;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      letter-spacing: 2px;
+      color: #667eea;
+      pointer-events: none;
+      font-family: 'Playfair Display', serif;
     }
     
-    .logo-image {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid rgba(255, 255, 255, 0.3);
+    /* Header with gradient */
+    .header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 30px 40px 25px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .live-timestamp {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      opacity: 0.9;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      letter-spacing: 0.5px;
+    }
+    
+    .subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      opacity: 0.9;
+      font-style: italic;
+    }
+    
+    /* Content area */
+    .content {
+      flex: 1;
+      padding: 35px 40px;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .breaking-news {
+      background: linear-gradient(135deg, #ff4757, #ff6b7a);
+      color: white;
+      text-align: center;
+      padding: 12px 20px;
+      border-radius: 25px;
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      animation: pulse 2s ease-in-out infinite;
+      display: none;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    .news-content {
+      font-family: 'Crimson Text', serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #2c3e50;
+      min-height: 300px;
+      border: 2px dashed rgba(102, 126, 234, 0.2);
+      border-radius: 12px;
+      padding: 25px;
+      transition: all 0.3s ease;
+      flex: 1;
+      position: relative;
+      background: rgba(248, 249, 250, 0.3);
+    }
+    
+    .news-content:focus {
+      outline: none;
+      border-color: #667eea;
+      background: rgba(248, 249, 250, 0.6);
+      box-shadow: 0 0 15px rgba(102, 126, 234, 0.1);
+    }
+    
+    .news-content:empty::before {
+      content: '✍️ Click here to write your news story...';
+      color: #95a5a6;
+      font-style: italic;
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      pointer-events: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+    }
+    
+    /* Image container */
+    .image-container {
+      margin: 20px 0;
+      position: relative;
+      z-index: 2;
     }
     
     .news-image {
       width: 100%;
-      max-width: 600px;
-      height: 300px;
+      height: 200px;
       object-fit: cover;
-      border-radius: 16px;
-      margin: 20px auto;
-      display: block;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
-    }
-    
-    .news-image:hover {
-      transform: scale(1.02);
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      margin-bottom: 10px;
     }
     
     .image-caption {
       text-align: center;
       font-style: italic;
       color: #666;
-      margin-top: 10px;
-      font-size: 14px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
     }
     
     .image-upload-area {
       border: 2px dashed rgba(102, 126, 234, 0.4);
       border-radius: 12px;
-      padding: 20px;
+      padding: 30px 20px;
       text-align: center;
-      margin: 20px 0;
       background: rgba(102, 126, 234, 0.05);
       transition: all 0.3s ease;
       cursor: pointer;
+      font-family: 'Inter', sans-serif;
     }
     
     .image-upload-area:hover {
@@ -169,151 +200,54 @@
     .upload-text {
       color: #667eea;
       font-weight: 600;
-      margin-top: 10px;
-    }
-    
-    .title {
-      font-size: clamp(28px, 5vw, 42px);
-      font-weight: 800;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-align: center;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-    
-    .subtitle {
-      font-size: 16px;
-      color: #666;
-      text-align: center;
-      margin-bottom: 30px;
-      opacity: 0.8;
-    }
-    
-    .date-time {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-      padding: 15px 25px;
-      border-radius: 15px;
-      margin-bottom: 30px;
-      border-left: 4px solid #667eea;
+      margin-top: 8px;
       font-size: 14px;
-      color: #495057;
-      font-weight: 600;
     }
     
-    .live-indicator {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .live-dot {
-      width: 12px;
-      height: 12px;
-      background: #ff4757;
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.7; }
-    }
-    
-    .news-content {
-      font-size: 18px;
-      line-height: 1.8;
-      color: #2c3e50;
-      background: rgba(248, 249, 250, 0.5);
-      border-radius: 16px;
-      padding: 30px;
-      min-height: 200px;
-      border: 2px dashed rgba(102, 126, 234, 0.3);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .news-content:focus {
-      outline: none;
-      border-color: #667eea;
-      background: rgba(248, 249, 250, 0.8);
-      box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
-    }
-    
-    .news-content:empty::before {
-      content: '✍️ Click here to write your breaking news updates...';
-      color: #95a5a6;
-      font-style: italic;
-      position: absolute;
-      top: 30px;
-      left: 30px;
-      pointer-events: none;
-    }
-    
+    /* Tools */
     .tools {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      margin-top: 30px;
+      gap: 12px;
+      margin-top: 25px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
     }
     
     .tool-btn {
-      padding: 12px 20px;
+      padding: 10px 18px;
       border: none;
-      border-radius: 25px;
+      border-radius: 20px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-size: 14px;
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      font-family: 'Inter', sans-serif;
     }
     
     .tool-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
     
-    .tool-btn:active {
-      transform: translateY(0);
-    }
-    
-    .breaking-news {
-      background: linear-gradient(135deg, #ff4757, #ff6b7a);
-      color: white;
-      text-align: center;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      font-weight: bold;
-      animation: breakingPulse 3s ease-in-out infinite;
-      display: none;
-    }
-    
-    @keyframes breakingPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-    }
-    
+    /* Footer */
     .footer {
       text-align: center;
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(102, 126, 234, 0.2);
-      color: #7f8c8d;
-      font-size: 14px;
+      padding: 20px 40px;
+      background: #f8f9fa;
+      color: #6c757d;
+      font-size: 11px;
+      position: relative;
+      z-index: 2;
+      font-family: 'Inter', sans-serif;
+      border-top: 1px solid #e9ecef;
     }
     
-    /* Print Styles */
+    /* Print Styles for Instagram-ready format */
     @media print {
       * {
         -webkit-print-color-adjust: exact !important;
@@ -329,100 +263,48 @@
       
       .bulletin-container {
         max-width: none !important;
-        width: 100% !important;
+        width: 600px !important;
+        margin: 0 auto;
       }
       
       .bulletin {
-        background: white !important;
         box-shadow: none !important;
-        border: 2px solid #667eea !important;
+        border: 1px solid #ddd !important;
         border-radius: 0 !important;
-        padding: 30px !important;
         margin: 0 !important;
-        page-break-inside: avoid;
+        min-height: auto !important;
+        max-height: 842px; /* A4 height in pixels at 96 DPI */
+        overflow: hidden;
       }
       
-      .bulletin::before {
-        background: linear-gradient(90deg, #667eea, #4ecdc4, #45b7d1) !important;
-        height: 6px !important;
+      .watermark {
+        opacity: 0.08 !important;
       }
       
       .header {
-        border-bottom: 3px solid #667eea;
-        padding-bottom: 20px;
-        margin-bottom: 25px;
-      }
-      
-      .logo-container {
         background: linear-gradient(135deg, #667eea, #764ba2) !important;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
-        margin-bottom: 15px;
+        color: white !important;
+        padding: 25px 35px 20px !important;
       }
       
       .title {
-        color: #667eea !important;
-        font-size: 36px !important;
-        margin-bottom: 5px;
+        font-size: 26px !important;
       }
       
-      .subtitle {
-        color: #333 !important;
-        font-size: 14px;
-        margin-bottom: 0;
-      }
-      
-      .date-time {
-        background: #f8f9fa !important;
-        border: 1px solid #dee2e6 !important;
-        border-left: 4px solid #667eea !important;
-        padding: 15px 20px;
-        font-size: 12px;
-        color: #333 !important;
-        margin-bottom: 25px;
-      }
-      
-      .live-indicator {
-        color: #ff4757 !important;
-      }
-      
-      .live-dot {
-        background: #ff4757 !important;
-      }
-      
-      .breaking-news {
-        background: linear-gradient(135deg, #ff4757, #ff6b7a) !important;
-        color: white !important;
-        border: 2px solid #ff4757 !important;
-        page-break-inside: avoid;
+      .content {
+        padding: 25px 35px !important;
       }
       
       .news-content {
-        background: white !important;
+        min-height: 250px !important;
         border: 1px solid #dee2e6 !important;
-        color: #333 !important;
-        font-size: 14px !important;
-        line-height: 1.6 !important;
-        padding: 20px !important;
-        min-height: 400px !important;
+        background: rgba(248, 249, 250, 0.5) !important;
+        font-size: 15px !important;
         page-break-inside: avoid;
       }
       
       .news-content:empty::before {
         display: none;
-      }
-      
-      .news-image {
-        max-width: 100% !important;
-        height: auto !important;
-        page-break-inside: avoid;
-        margin: 15px 0 !important;
-      }
-      
-      .image-caption {
-        color: #666 !important;
-        font-size: 12px !important;
-        text-align: center;
-        margin-bottom: 15px;
       }
       
       .tools,
@@ -431,132 +313,100 @@
       }
       
       .footer {
-        border-top: 2px solid #667eea !important;
-        color: #666 !important;
-        font-size: 11px !important;
-        margin-top: 30px !important;
-        padding-top: 15px !important;
+        padding: 15px 35px !important;
+        font-size: 10px !important;
+      }
+      
+      .news-image {
+        height: 180px !important;
         page-break-inside: avoid;
       }
       
-      /* Print header on every page */
-      .print-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+      .breaking-news {
+        background: linear-gradient(135deg, #ff4757, #ff6b7a) !important;
         color: white !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 18px;
-        z-index: 1000;
-      }
-      
-      /* Adjust content for print header */
-      .bulletin {
-        margin-top: 80px !important;
-      }
-      
-      /* Page breaks */
-      h1, h2, h3 {
-        page-break-after: avoid;
-      }
-      
-      p {
-        orphans: 3;
-        widows: 3;
+        margin-bottom: 20px !important;
       }
     }
     
     @media (max-width: 768px) {
-      .bulletin {
-        padding: 30px 20px;
-        margin: 10px;
-        border-radius: 20px;
+      .bulletin-container {
+        max-width: 100%;
       }
       
-      .date-time {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
+      .header {
+        padding: 25px 30px 20px;
+      }
+      
+      .content {
+        padding: 30px 25px;
+      }
+      
+      .footer {
+        padding: 20px 25px;
+      }
+      
+      .title {
+        font-size: 24px;
       }
       
       .tools {
-        gap: 10px;
+        gap: 8px;
       }
       
       .tool-btn {
-        padding: 10px 16px;
-        font-size: 13px;
+        padding: 8px 14px;
+        font-size: 12px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Print header (only visible when printing) -->
-  <div class="print-header" style="display: none;">
-    M.KING GLOBAL NEWS BULLETIN
-  </div>
-  
   <div class="bulletin-container">
     <div class="bulletin">
-      <div class="breaking-news" id="breakingBanner">
-        🚨 BREAKING NEWS 🚨
-      </div>
+      <!-- Watermark -->
+      <div class="watermark">M.KING</div>
       
+      <!-- Header -->
       <div class="header">
-        <div class="logo-container">
-          <!-- OPTION 1: Replace text logo with image -->
-          <img src="Mking.png" alt="M.KING Logo" class="logo-image">
-          <div class="logo-text">MK</div>
+        <div class="live-timestamp">
+          <span id="currentDateTime">LIVE • Thursday, September 11, 2025 • 12:35 AM</span>
         </div>
         <div class="title">M.KING Global News</div>
         <div class="subtitle">Your trusted source for breaking news and updates</div>
       </div>
       
-      <div class="date-time">
-        <div>
-          📅 <span id="currentDate"></span>
+      <!-- Content -->
+      <div class="content">
+        <div class="breaking-news" id="breakingBanner">
+          🚨 BREAKING NEWS 🚨
         </div>
-        <div class="live-indicator">
-          <div class="live-dot"></div>
-          <span>LIVE</span>
+        
+        <div class="news-content" 
+             contenteditable="true" 
+             id="newsContent"></div>
+        
+        <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
+          <div style="font-size: 32px; color: #667eea;">📷</div>
+          <div class="upload-text">Click to add image</div>
+          <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="addNewsImage(this)">
         </div>
-        <div>
-          🕒 <span id="currentTime"></span>
+        
+        <div class="image-container" id="imageContainer"></div>
+        
+        <div class="tools">
+          <button class="tool-btn" onclick="addBreakingNews()">🚨 Breaking</button>
+          <button class="tool-btn" onclick="addTimestamp()">⏰ Timestamp</button>
+          <button class="tool-btn" onclick="document.getElementById('imageInput').click()">📷 Image</button>
+          <button class="tool-btn" onclick="saveContent()">💾 Save</button>
+          <button class="tool-btn" onclick="printBulletin()">📱 Download</button>
+          <button class="tool-btn" onclick="clearContent()">🗑️ Clear</button>
         </div>
       </div>
       
-      <div class="news-content" 
-           contenteditable="true" 
-           id="newsContent"
-           placeholder="Write your news updates here..."></div>
-      
-      <!-- OPTION 2: Add news story images -->
-      <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
-        <div style="font-size: 48px; color: #667eea;">📷</div>
-        <div class="upload-text">Click to add news image</div>
-        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="addNewsImage(this)">
-      </div>
-      
-      <div id="imageContainer"></div>
-      
-      <div class="tools">
-        <button class="tool-btn" onclick="addBreakingNews()">🚨 Breaking News</button>
-        <button class="tool-btn" onclick="addTimestamp()">⏰ Add Timestamp</button>
-        <button class="tool-btn" onclick="document.getElementById('imageInput').click()">📷 Add Image</button>
-        <button class="tool-btn" onclick="saveContent()">💾 Save Draft</button>
-        <button class="tool-btn" onclick="clearContent()">🗑️ Clear</button>
-        <button class="tool-btn" onclick="printBulletin()">🖨️ Print</button>
-      </div>
-      
+      <!-- Footer -->
       <div class="footer">
-        <p>© 2024 M.KING Global News Network | All Rights Reserved</p>
-        <p>Follow us for the latest updates and breaking news coverage</p>
+        <p>© 2024 M.KING Global News Network | Follow @mking_news</p>
       </div>
     </div>
   </div>
@@ -565,25 +415,22 @@
     // Update date and time
     function updateDateTime() {
       const now = new Date();
-      const dateOptions = { 
+      const options = { 
         weekday: 'long', 
         year: 'numeric', 
         month: 'long', 
-        day: 'numeric' 
-      };
-      const timeOptions = { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
         hour12: true
       };
       
-      document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', dateOptions);
-      document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', timeOptions);
+      const formatted = now.toLocaleDateString('en-US', options).replace(',', ' •') + ' • ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+      document.getElementById('currentDateTime').textContent = 'LIVE • ' + formatted;
     }
     
-    // Update time every second
-    setInterval(updateDateTime, 1000);
+    // Update time every minute
+    setInterval(updateDateTime, 60000);
     updateDateTime();
     
     // Breaking news functionality
@@ -622,12 +469,11 @@
       sel.addRange(range);
     }
     
-    // Save content to localStorage
+    // Save content
     function saveContent() {
       const content = document.getElementById('newsContent').textContent;
       localStorage.setItem('newsContent', content);
       
-      // Visual feedback
       const btn = event.target;
       const originalText = btn.textContent;
       btn.textContent = '✅ Saved!';
@@ -641,40 +487,85 @@
     
     // Clear content
     function clearContent() {
-      if (confirm('Are you sure you want to clear all content?')) {
+      if (confirm('Clear all content?')) {
         document.getElementById('newsContent').textContent = '';
         document.getElementById('breakingBanner').style.display = 'none';
+        document.getElementById('imageContainer').innerHTML = '';
       }
     }
     
-    // Print bulletin
+    // Print bulletin (optimized for Instagram)
     function printBulletin() {
-      // Show print header
-      document.querySelector('.print-header').style.display = 'flex';
+      // Hide tools and upload area for clean print
+      const tools = document.querySelector('.tools');
+      const uploadArea = document.querySelector('.image-upload-area');
       
-      // Add print timestamp to content if it doesn't exist
-      const content = document.getElementById('newsContent');
-      const printInfo = `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nPrinted on: ${new Date().toLocaleString()}\nM.KING Global News Network | All Rights Reserved`;
+      tools.style.display = 'none';
+      uploadArea.style.display = 'none';
       
-      // Store original content
-      const originalContent = content.textContent;
+      // Update timestamp in header for print
+      updateDateTime();
       
-      // Add print info temporarily
-      content.textContent = originalContent + printInfo;
-      
-      // Print
       setTimeout(() => {
         window.print();
         
-        // Restore original content and hide print header after printing
+        // Restore elements after printing
         setTimeout(() => {
-          content.textContent = originalContent;
-          document.querySelector('.print-header').style.display = 'none';
+          tools.style.display = 'flex';
+          if (document.getElementById('imageContainer').children.length === 0) {
+            uploadArea.style.display = 'block';
+          }
         }, 500);
       }, 100);
     }
     
-    // Load saved content on page load
+    // Add news image
+    function addNewsImage(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imageContainer = document.getElementById('imageContainer');
+          const uploadArea = document.querySelector('.image-upload-area');
+          
+          // Hide upload area
+          uploadArea.style.display = 'none';
+          
+          const imageDiv = document.createElement('div');
+          imageDiv.innerHTML = `
+            <img src="${e.target.result}" alt="News Image" class="news-image">
+            <div class="image-caption" contenteditable="true">Click to add caption...</div>
+            <button onclick="removeImage(this)" style="
+              position: absolute; 
+              top: 10px; 
+              right: 10px; 
+              background: rgba(255,77,87,0.9); 
+              border: none; 
+              border-radius: 50%; 
+              width: 28px; 
+              height: 28px; 
+              color: white; 
+              cursor: pointer;
+              font-size: 14px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            ">×</button>
+          `;
+          imageDiv.style.position = 'relative';
+          imageContainer.appendChild(imageDiv);
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    
+    function removeImage(btn) {
+      btn.parentElement.remove();
+      if (document.getElementById('imageContainer').children.length === 0) {
+        document.querySelector('.image-upload-area').style.display = 'block';
+      }
+    }
+    
+    // Load saved content
     window.addEventListener('load', () => {
       const savedContent = localStorage.getItem('newsContent');
       if (savedContent) {
@@ -682,53 +573,13 @@
       }
     });
     
-    // Auto-save every 30 seconds
+    // Auto-save
     setInterval(() => {
       const content = document.getElementById('newsContent').textContent;
       if (content.trim()) {
         localStorage.setItem('newsContent', content);
       }
     }, 30000);
-    
-    // Enhanced typing experience
-    const newsContent = document.getElementById('newsContent');
-    newsContent.addEventListener('paste', (e) => {
-      e.preventDefault();
-      const text = (e.originalEvent || e).clipboardData.getData('text/plain');
-      document.execCommand('insertText', false, text);
-    });
-    
-    // Add news image functionality
-    function addNewsImage(input) {
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const imageContainer = document.getElementById('imageContainer');
-          const imageDiv = document.createElement('div');
-          imageDiv.innerHTML = `
-            <img src="${e.target.result}" alt="News Image" class="news-image">
-            <div class="image-caption" contenteditable="true">Click to add caption...</div>
-            <button onclick="this.parentElement.remove()" style="
-              position: absolute; 
-              top: 10px; 
-              right: 10px; 
-              background: rgba(255,77,87,0.9); 
-              border: none; 
-              border-radius: 50%; 
-              width: 30px; 
-              height: 30px; 
-              color: white; 
-              cursor: pointer;
-              font-size: 16px;
-            ">×</button>
-          `;
-          imageDiv.style.position = 'relative';
-          imageDiv.style.marginBottom = '20px';
-          imageContainer.appendChild(imageDiv);
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
   </script>
 </body>
 </html>
