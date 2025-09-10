@@ -313,6 +313,165 @@
       font-size: 14px;
     }
     
+    /* Print Styles */
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      
+      body {
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      
+      .bulletin-container {
+        max-width: none !important;
+        width: 100% !important;
+      }
+      
+      .bulletin {
+        background: white !important;
+        box-shadow: none !important;
+        border: 2px solid #667eea !important;
+        border-radius: 0 !important;
+        padding: 30px !important;
+        margin: 0 !important;
+        page-break-inside: avoid;
+      }
+      
+      .bulletin::before {
+        background: linear-gradient(90deg, #667eea, #4ecdc4, #45b7d1) !important;
+        height: 6px !important;
+      }
+      
+      .header {
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+      }
+      
+      .logo-container {
+        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+        margin-bottom: 15px;
+      }
+      
+      .title {
+        color: #667eea !important;
+        font-size: 36px !important;
+        margin-bottom: 5px;
+      }
+      
+      .subtitle {
+        color: #333 !important;
+        font-size: 14px;
+        margin-bottom: 0;
+      }
+      
+      .date-time {
+        background: #f8f9fa !important;
+        border: 1px solid #dee2e6 !important;
+        border-left: 4px solid #667eea !important;
+        padding: 15px 20px;
+        font-size: 12px;
+        color: #333 !important;
+        margin-bottom: 25px;
+      }
+      
+      .live-indicator {
+        color: #ff4757 !important;
+      }
+      
+      .live-dot {
+        background: #ff4757 !important;
+      }
+      
+      .breaking-news {
+        background: linear-gradient(135deg, #ff4757, #ff6b7a) !important;
+        color: white !important;
+        border: 2px solid #ff4757 !important;
+        page-break-inside: avoid;
+      }
+      
+      .news-content {
+        background: white !important;
+        border: 1px solid #dee2e6 !important;
+        color: #333 !important;
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+        padding: 20px !important;
+        min-height: 400px !important;
+        page-break-inside: avoid;
+      }
+      
+      .news-content:empty::before {
+        display: none;
+      }
+      
+      .news-image {
+        max-width: 100% !important;
+        height: auto !important;
+        page-break-inside: avoid;
+        margin: 15px 0 !important;
+      }
+      
+      .image-caption {
+        color: #666 !important;
+        font-size: 12px !important;
+        text-align: center;
+        margin-bottom: 15px;
+      }
+      
+      .tools,
+      .image-upload-area {
+        display: none !important;
+      }
+      
+      .footer {
+        border-top: 2px solid #667eea !important;
+        color: #666 !important;
+        font-size: 11px !important;
+        margin-top: 30px !important;
+        padding-top: 15px !important;
+        page-break-inside: avoid;
+      }
+      
+      /* Print header on every page */
+      .print-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+        color: white !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 18px;
+        z-index: 1000;
+      }
+      
+      /* Adjust content for print header */
+      .bulletin {
+        margin-top: 80px !important;
+      }
+      
+      /* Page breaks */
+      h1, h2, h3 {
+        page-break-after: avoid;
+      }
+      
+      p {
+        orphans: 3;
+        widows: 3;
+      }
+    }
+    
     @media (max-width: 768px) {
       .bulletin {
         padding: 30px 20px;
@@ -338,6 +497,11 @@
   </style>
 </head>
 <body>
+  <!-- Print header (only visible when printing) -->
+  <div class="print-header" style="display: none;">
+    M.KING GLOBAL NEWS BULLETIN
+  </div>
+  
   <div class="bulletin-container">
     <div class="bulletin">
       <div class="breaking-news" id="breakingBanner">
@@ -485,7 +649,29 @@
     
     // Print bulletin
     function printBulletin() {
-      window.print();
+      // Show print header
+      document.querySelector('.print-header').style.display = 'flex';
+      
+      // Add print timestamp to content if it doesn't exist
+      const content = document.getElementById('newsContent');
+      const printInfo = `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nPrinted on: ${new Date().toLocaleString()}\nM.KING Global News Network | All Rights Reserved`;
+      
+      // Store original content
+      const originalContent = content.textContent;
+      
+      // Add print info temporarily
+      content.textContent = originalContent + printInfo;
+      
+      // Print
+      setTimeout(() => {
+        window.print();
+        
+        // Restore original content and hide print header after printing
+        setTimeout(() => {
+          content.textContent = originalContent;
+          document.querySelector('.print-header').style.display = 'none';
+        }, 500);
+      }, 100);
     }
     
     // Load saved content on page load
