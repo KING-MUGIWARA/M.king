@@ -54,6 +54,21 @@
       font-family: 'Playfair Display', serif;
     }
     
+    /* Image Watermark Option */
+    .watermark-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.08;
+      z-index: 1;
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      pointer-events: none;
+      filter: grayscale(100%);
+    }
+    
     /* Header with gradient */
     .header {
       background: linear-gradient(135deg, #667eea, #764ba2);
@@ -364,8 +379,14 @@
 <body>
   <div class="bulletin-container">
     <div class="bulletin">
-      <!-- Watermark -->
-      <div class="watermark">M.KING</div>
+      <!-- Watermark Options -->
+      
+      <!-- OPTION 1: Text Watermark (current) -->
+      <div class="watermark" id="textWatermark">M.KING</div>
+      
+      <!-- OPTION 2: Image Watermark (hidden by default) -->
+      <!-- Uncomment the line below and add your image -->
+      <img src="Mking.png" alt="Watermark" class="watermark-image" id="imageWatermark">
       
       <!-- Header -->
       <div class="header">
@@ -398,10 +419,14 @@
           <button class="tool-btn" onclick="addBreakingNews()">🚨 Breaking</button>
           <button class="tool-btn" onclick="addTimestamp()">⏰ Timestamp</button>
           <button class="tool-btn" onclick="document.getElementById('imageInput').click()">📷 Image</button>
+          <button class="tool-btn" onclick="document.getElementById('watermarkInput').click()">🏷️ Watermark</button>
           <button class="tool-btn" onclick="saveContent()">💾 Save</button>
           <button class="tool-btn" onclick="printBulletin()">📱 Download</button>
           <button class="tool-btn" onclick="clearContent()">🗑️ Clear</button>
         </div>
+        
+        <!-- Hidden watermark upload -->
+        <input type="file" id="watermarkInput" accept="image/*" style="display: none;" onchange="setWatermarkImage(this)">
       </div>
       
       <!-- Footer -->
@@ -580,6 +605,43 @@
         localStorage.setItem('newsContent', content);
       }
     }, 30000);
+    
+    // Watermark image functionality
+    function setWatermarkImage(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          // Hide text watermark
+          const textWatermark = document.getElementById('textWatermark');
+          textWatermark.style.display = 'none';
+          
+          // Create or update image watermark
+          let imageWatermark = document.getElementById('imageWatermark');
+          if (!imageWatermark) {
+            imageWatermark = document.createElement('img');
+            imageWatermark.id = 'imageWatermark';
+            imageWatermark.className = 'watermark-image';
+            imageWatermark.alt = 'Watermark';
+            document.querySelector('.bulletin').appendChild(imageWatermark);
+          }
+          
+          imageWatermark.src = e.target.result;
+          imageWatermark.style.display = 'block';
+          
+          // Visual feedback
+          const btn = event.target.previousElementSibling;
+          const originalText = btn.textContent;
+          btn.textContent = '✅ Set!';
+          btn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+          
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+          }, 2000);
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
   </script>
 </body>
 </html>
