@@ -152,6 +152,11 @@
     
     /* Print Styles */
     @media print {
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      
       * {
         -webkit-print-color-adjust: exact !important;
         color-adjust: exact !important;
@@ -170,177 +175,337 @@
       
       .print-layout {
         display: flex !important;
-        width: 100vw;
-        height: 100vh;
+        width: 210mm;
+        height: 297mm;
         margin: 0;
         padding: 0;
+        position: relative;
+        overflow: hidden;
       }
       
       /* Left Section - News Content */
       .print-left {
         flex: 1;
-        background: linear-gradient(135deg, #2563eb 0%, #1e40af 25%, #0ea5e9 50%, #06b6d4 75%, #0891b2 100%) !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%) !important;
         color: white !important;
-        padding: 40px !important;
+        padding: 30px !important;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
+        print-color-adjust: exact;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .print-left::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        pointer-events: none;
         print-color-adjust: exact;
       }
       
       .print-header {
-        margin-bottom: 30px;
+        position: relative;
+        z-index: 2;
+      }
+      
+      .print-logo-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+      
+      .print-logo {
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.2) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Playfair Display', serif;
+        font-size: 20px;
+        font-weight: 900;
+        backdrop-filter: blur(10px);
+        print-color-adjust: exact;
+      }
+      
+      .print-agency-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 18px;
+        font-weight: 900;
+        margin: 0;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        line-height: 1.1;
+      }
+      
+      .print-agency-tagline {
+        font-size: 10px;
+        opacity: 0.8;
+        margin: 2px 0 0 0;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
       
       .print-badge {
-        background: rgba(255, 255, 255, 0.15) !important;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 700;
+        background: rgba(255, 77, 87, 0.9) !important;
+        padding: 6px 14px;
+        border-radius: 15px;
+        font-size: 10px;
+        font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 1px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         display: inline-block;
+        box-shadow: 0 4px 15px rgba(255, 77, 87, 0.3);
         print-color-adjust: exact;
       }
       
       .print-main-title {
         font-family: 'Playfair Display', serif;
-        font-size: 36px;
+        font-size: 28px;
         font-weight: 900;
-        margin-bottom: 16px;
-        line-height: 1.2;
+        margin-bottom: 15px;
+        line-height: 1.1;
+        text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+      }
+      
+      .print-content-section {
+        flex: 1;
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
       
       .print-content {
-        font-size: 16px;
-        line-height: 1.6;
+        font-size: 14px;
+        line-height: 1.5;
         font-family: 'Crimson Text', serif;
         opacity: 0.95;
+        max-height: 400px;
+        overflow: hidden;
+        text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+      }
+      
+      .print-footer-section {
+        position: relative;
+        z-index: 2;
+        margin-top: 20px;
       }
       
       .print-timestamp {
-        margin-top: 30px;
-        font-size: 12px;
+        font-size: 11px;
         opacity: 0.8;
         font-weight: 500;
+        margin-bottom: 10px;
+        text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+      }
+      
+      .print-social {
+        font-size: 10px;
+        opacity: 0.7;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
       }
       
       /* Right Section - Visual */
       .print-right {
         flex: 1;
-        background: white !important;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.98) 100%) !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px !important;
+        position: relative;
+        print-color-adjust: exact;
+      }
+      
+      .print-right::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+          radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.03) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.03) 0%, transparent 50%);
+        pointer-events: none;
+        print-color-adjust: exact;
+      }
+      
+      .print-visual-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        width: 100%;
+        flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 40px !important;
-        position: relative;
       }
       
       .print-image-container {
         width: 100%;
-        max-width: 350px;
-        margin-bottom: 30px;
-        text-align: center;
+        max-width: 280px;
+        margin-bottom: 25px;
       }
       
       .print-news-image {
         width: 100%;
-        height: auto;
-        max-height: 250px;
+        height: 200px;
         object-fit: cover;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        border: 3px solid rgba(255, 255, 255, 0.8);
       }
       
       .print-building-placeholder {
         width: 100%;
         height: 200px;
         background: linear-gradient(135deg, #f1f5f9, #e2e8f0) !important;
-        border-radius: 12px;
+        border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        border: 3px solid rgba(255, 255, 255, 0.8);
         print-color-adjust: exact;
       }
       
       .print-building-facade {
-        width: 80%;
-        height: 70%;
+        width: 75%;
+        height: 65%;
         background: linear-gradient(135deg, #334155, #475569) !important;
-        border-radius: 8px;
+        border-radius: 12px;
         position: relative;
         print-color-adjust: exact;
+        box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
       }
       
       .print-building-windows {
         position: absolute;
-        top: 15px;
-        left: 15px;
-        right: 15px;
-        bottom: 25px;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        bottom: 35px;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        gap: 8px;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 6px;
       }
       
       .print-window {
-        background: #fbbf24 !important;
-        border-radius: 3px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+        border-radius: 4px;
         print-color-adjust: exact;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
       }
       
       .print-building-sign {
         position: absolute;
-        bottom: 5px;
+        bottom: 8px;
         left: 50%;
         transform: translateX(-50%);
-        background: linear-gradient(135deg, #2563eb, #1e40af) !important;
+        background: linear-gradient(135deg, #667eea, #764ba2) !important;
         color: white !important;
-        padding: 6px 12px;
+        padding: 4px 10px;
         border-radius: 6px;
         font-weight: 800;
-        font-size: 10px;
+        font-size: 9px;
         font-family: 'Playfair Display', serif;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         print-color-adjust: exact;
       }
       
       .print-agency-info {
         text-align: center;
         color: #1e293b !important;
-        max-width: 350px;
+        max-width: 280px;
+        margin-bottom: 20px;
       }
       
       .print-agency-title {
         font-family: 'Playfair Display', serif;
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 900;
-        margin-bottom: 12px;
-        color: #1e293b !important;
+        margin-bottom: 8px;
+        background: linear-gradient(135deg, #1e293b, #667eea);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.2;
       }
       
       .print-agency-description {
-        font-size: 14px;
+        font-size: 12px;
         color: #64748b !important;
-        line-height: 1.5;
-        margin-bottom: 20px;
+        line-height: 1.4;
+        margin-bottom: 15px;
+        font-weight: 500;
       }
       
-      .print-footer {
-        position: absolute;
-        bottom: 20px;
-        left: 40px;
-        right: 40px;
+      .print-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        width: 100%;
+        max-width: 200px;
+        margin-bottom: 15px;
+      }
+      
+      .print-stat {
+        background: rgba(102, 126, 234, 0.05) !important;
+        border: 1px solid rgba(102, 126, 234, 0.1);
+        border-radius: 8px;
+        padding: 8px 6px;
         text-align: center;
-        font-size: 10px;
+        print-color-adjust: exact;
+      }
+      
+      .print-stat-number {
+        font-family: 'Playfair Display', serif;
+        font-size: 14px;
+        font-weight: 900;
+        color: #667eea !important;
+        margin-bottom: 2px;
+        line-height: 1;
+      }
+      
+      .print-stat-label {
+        font-size: 8px;
+        color: #64748b !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        line-height: 1;
+      }
+      
+      .print-bottom-footer {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        font-size: 9px;
         color: #9ca3af !important;
-        border-top: 1px solid #e5e7eb;
-        padding-top: 10px;
+        border-top: 1px solid rgba(156, 163, 175, 0.2);
+        padding-top: 8px;
+        margin-top: auto;
+        width: 100%;
+        font-weight: 500;
       }
     }
     
@@ -410,47 +575,86 @@
     <!-- Left Side - News Content -->
     <div class="print-left">
       <div class="print-header">
-        <div class="print-badge" id="printBadge">📰 BREAKING NEWS</div>
+        <div class="print-logo-section">
+          <div class="print-logo">MK</div>
+          <div>
+            <div class="print-agency-name">M.KING GLOBAL NEWS</div>
+            <div class="print-agency-tagline">Premium Edition</div>
+          </div>
+        </div>
+        <div class="print-badge" id="printBadge">📰 NEWS REPORT</div>
         <h1 class="print-main-title" id="printTitle">Your News Title Here</h1>
       </div>
       
-      <div class="print-content" id="printContent">
-        Your news content will appear here when you write it above.
+      <div class="print-content-section">
+        <div class="print-content" id="printContent">
+          Your news content will appear here when you write it above.
+        </div>
       </div>
       
-      <div class="print-timestamp" id="printTimestamp">
-        Published: [Timestamp will be added here]
+      <div class="print-footer-section">
+        <div class="print-timestamp" id="printTimestamp">
+          Published: [Timestamp will be added here]
+        </div>
+        <div class="print-social">Follow us @MKingNews • www.mking-news.com</div>
       </div>
     </div>
     
     <!-- Right Side - Visual -->
     <div class="print-right">
-      <div class="print-image-container" id="printImageContainer">
-        <!-- Image will be inserted here, or building placeholder will show -->
-        <div class="print-building-placeholder" id="buildingPlaceholder">
-          <div class="print-building-facade">
-            <div class="print-building-windows">
-              <div class="print-window"></div>
-              <div class="print-window"></div>
-              <div class="print-window"></div>
-              <div class="print-window"></div>
-              <div class="print-window"></div>
-              <div class="print-window"></div>
+      <div class="print-visual-content">
+        <div class="print-image-container" id="printImageContainer">
+          <!-- Image will be inserted here, or building placeholder will show -->
+          <div class="print-building-placeholder">
+            <div class="print-building-facade">
+              <div class="print-building-windows">
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+                <div class="print-window"></div>
+              </div>
+              <div class="print-building-sign">M.KING GLOBAL NEWS</div>
             </div>
-            <div class="print-building-sign">M.KING GLOBAL NEWS</div>
+          </div>
+        </div>
+        
+        <div class="print-agency-info">
+          <h2 class="print-agency-title">M.KING Global News</h2>
+          <p class="print-agency-description">
+            Your premier source for breaking news, investigative journalism, and global coverage you can trust.
+          </p>
+          
+          <div class="print-stats">
+            <div class="print-stat">
+              <div class="print-stat-number">150K+</div>
+              <div class="print-stat-label">Readers</div>
+            </div>
+            <div class="print-stat">
+              <div class="print-stat-number">24/7</div>
+              <div class="print-stat-label">Coverage</div>
+            </div>
+            <div class="print-stat">
+              <div class="print-stat-number">50+</div>
+              <div class="print-stat-label">Countries</div>
+            </div>
+            <div class="print-stat">
+              <div class="print-stat-number">99%</div>
+              <div class="print-stat-label">Accuracy</div>
+            </div>
           </div>
         </div>
       </div>
       
-      <div class="print-agency-info">
-        <h2 class="print-agency-title">M.KING Global News</h2>
-        <p class="print-agency-description">
-          Your premier source for breaking news, investigative journalism, and global coverage you can trust.
-        </p>
-      </div>
-      
-      <div class="print-footer">
-        © 2024 M.KING Global News Network • www.mking-news.com • Follow us @MKingNews
+      <div class="print-bottom-footer">
+        © 2024 M.KING Global News Network • Premium Edition • All Rights Reserved
       </div>
     </div>
   </div>
