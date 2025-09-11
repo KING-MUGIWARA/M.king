@@ -214,6 +214,12 @@
       50% { transform: scale(1.02); box-shadow: 0 15px 40px rgba(255, 71, 87, 0.4); }
     }
     
+    .content-layout {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+    }
+    
     .news-content {
       background: linear-gradient(135deg, 
         rgba(255, 255, 255, 0.9) 0%, 
@@ -232,6 +238,7 @@
       box-shadow: 
         inset 0 1px 0 rgba(255, 255, 255, 0.8),
         0 10px 30px rgba(0, 0, 0, 0.1);
+      flex: 1;
     }
     
     .news-content::before {
@@ -369,6 +376,8 @@
     
     .image-container {
       text-align: center;
+      flex-shrink: 0;
+      max-width: 300px;
     }
     
     /* Luxury Tools */
@@ -500,9 +509,17 @@
         padding: 30px 25px;
       }
       
+      .content-layout {
+        flex-direction: column;
+      }
+      
       .news-content {
         padding: 25px;
         font-size: 16px;
+      }
+      
+      .image-container {
+        max-width: 100%;
       }
       
       .tools {
@@ -524,7 +541,7 @@
       }
     }
     
-    /* Print Styles - Multi-page Support */
+    /* Print Styles - Multi-page Support with Enhanced Layout */
     @media print {
       * {
         -webkit-print-color-adjust: exact !important;
@@ -556,24 +573,53 @@
       .header {
         background: linear-gradient(135deg, #667eea, #764ba2) !important;
         padding: 30px 40px !important;
+        print-color-adjust: exact;
       }
       
       .content {
         padding: 40px !important;
       }
       
-      .tools, .image-upload-area {
-        display: none !important;
+      .content-layout {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 30px !important;
+        align-items: flex-start !important;
       }
       
       .news-content {
-        min-height: 300px !important;
+        flex: 1 !important;
+        min-height: 500px !important;
         background: white !important;
         border: 1px solid #dee2e6 !important;
+        font-size: clamp(14px, 2vw, 18px) !important;
+        line-height: 1.6 !important;
+        padding: 30px !important;
       }
       
       .news-content:empty::before {
         display: none;
+      }
+      
+      .image-container {
+        flex-shrink: 0 !important;
+        max-width: 300px !important;
+        min-width: 250px !important;
+      }
+      
+      .news-image {
+        max-height: 300px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+      }
+      
+      .image-caption {
+        font-size: 12px !important;
+        margin-top: 10px !important;
+      }
+      
+      .tools, .image-upload-area {
+        display: none !important;
       }
       
       .watermark-image {
@@ -583,7 +629,43 @@
       .breaking-banner {
         background: linear-gradient(135deg, #ff4757, #ff6b7a) !important;
         animation: none !important;
+        print-color-adjust: exact;
+        margin-bottom: 20px !important;
       }
+      
+      .main-title {
+        font-size: 36px !important;
+      }
+      
+      .subtitle {
+        font-size: 14px !important;
+      }
+      
+      .timestamp {
+        font-size: 12px !important;
+      }
+      
+      .footer {
+        font-size: 10px !important;
+        padding: 20px 40px !important;
+      }
+      
+      .live-indicator {
+        print-color-adjust: exact;
+      }
+    }
+    
+    /* Auto font sizing based on content length */
+    .news-content.long-content {
+      font-size: 16px;
+    }
+    
+    .news-content.medium-content {
+      font-size: 18px;
+    }
+    
+    .news-content.short-content {
+      font-size: 20px;
     }
   </style>
 </head>
@@ -593,7 +675,7 @@
     <div class="page" id="page1">
       <!-- Watermark -->
       <div class="watermark-container">
-        <img src="" alt="M.KING Watermark" class="watermark-image" id="watermarkImg">
+        <img src="Mking.png" alt="M.KING Watermark" class="watermark-image" id="watermarkImg">
       </div>
       
       <!-- Premium Header -->
@@ -614,16 +696,18 @@
           🚨 BREAKING NEWS ALERT 🚨
         </div>
         
-        <div class="news-content" contenteditable="true" id="newsContent"></div>
-        
-        <div class="image-section">
-          <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
-            <div class="upload-icon">📸</div>
-            <div class="upload-text">Add Premium Image</div>
-            <div class="upload-subtext">Click to upload high-quality visuals</div>
-            <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="addNewsImage(this)">
+        <div class="content-layout">
+          <div class="news-content" contenteditable="true" id="newsContent"></div>
+          
+          <div class="image-section">
+            <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
+              <div class="upload-icon">📸</div>
+              <div class="upload-text">Add Premium Image</div>
+              <div class="upload-subtext">Click to upload high-quality visuals</div>
+              <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="addNewsImage(this)">
+            </div>
+            <div id="imageContainer" class="image-container"></div>
           </div>
-          <div id="imageContainer" class="image-container"></div>
         </div>
         
         <div class="tools">
@@ -702,7 +786,7 @@
     function addBreakingNews() {
       const banners = document.querySelectorAll('.breaking-banner');
       banners.forEach(banner => {
-        banner.style.display = banner.style.display === 'none' ? 'block' : 'none';
+        banner.style.display = banner.style.display === 'none' || banner.style.display === '' ? 'block' : 'none';
       });
       
       if (banners[0].style.display === 'block') {
@@ -738,6 +822,123 @@
         reader.onload = function(e) {
           const container = document.getElementById('imageContainer');
           const uploadArea = container.previousElementSibling;
+          
+          uploadArea.style.display = 'none';
+          
+          const imageDiv = document.createElement('div');
+          imageDiv.style.position = 'relative';
+          imageDiv.innerHTML = `
+            <img src="${e.target.result}" alt="News Image" class="news-image">
+            <div class="image-caption" contenteditable="true">Click to add caption...</div>
+            <button onclick="removeImage(this)" style="
+              position: absolute; 
+              top: 15px; 
+              right: 15px; 
+              background: rgba(255, 77, 87, 0.9); 
+              border: none; 
+              border-radius: 50%; 
+              width: 35px; 
+              height: 35px; 
+              color: white; 
+              cursor: pointer;
+              font-size: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: all 0.3s ease;
+              box-shadow: 0 4px 15px rgba(255, 77, 87, 0.4);
+            ">×</button>
+          `;
+          
+          container.appendChild(imageDiv);
+          showSuccess('📸 Image added successfully!');
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    
+    function removeImage(btn) {
+      btn.parentElement.remove();
+      const container = document.getElementById('imageContainer');
+      if (container.children.length === 0) {
+        container.previousElementSibling.style.display = 'block';
+      }
+    }
+    
+    // Add New Page
+    function addNewPage() {
+      pageCount++;
+      const wrapper = document.querySelector('.bulletin-wrapper');
+      
+      const newPage = document.createElement('div');
+      newPage.className = 'page';
+      newPage.id = `page${pageCount}`;
+      newPage.innerHTML = `
+        <div class="watermark-container">
+          <img src="${watermarkSrc}" alt="M.KING Watermark" class="watermark-image">
+        </div>
+        
+        <div class="header">
+          <div class="live-indicator">
+            <div class="live-dot"></div>
+            LIVE
+          </div>
+          <div class="timestamp">${document.querySelector('.timestamp').textContent}</div>
+          <div class="main-title">M.KING Global News</div>
+          <div class="subtitle">Continued Coverage • Page ${pageCount}</div>
+          <div class="divider"></div>
+        </div>
+        
+        <div class="content">
+          <div class="breaking-banner" style="display: none;">
+            🚨 BREAKING NEWS ALERT 🚨
+          </div>
+          
+          <div class="content-layout">
+            <div class="news-content" contenteditable="true" placeholder="Continue your story here..."></div>
+            
+            <div class="image-section">
+              <div class="image-upload-area" onclick="document.getElementById('imageInput${pageCount}').click()">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text">Add Premium Image</div>
+                <div class="upload-subtext">Click to upload high-quality visuals</div>
+                <input type="file" id="imageInput${pageCount}" accept="image/*" style="display: none;" onchange="addImageToPage(this, ${pageCount})">
+              </div>
+              <div class="image-container"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer">
+          <div class="footer-content">
+            <div>© 2024 M.KING Global News Network • Premium Edition • Page ${pageCount}</div>
+            <div class="social-links">
+              <a href="#" class="social-link">@mking_news</a>
+              <a href="#" class="social-link">Instagram</a>
+              <a href="#" class="social-link">Twitter</a>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      wrapper.appendChild(newPage);
+      
+      // Smooth scroll to new page
+      setTimeout(() => {
+        newPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        newPage.querySelector('.news-content').focus();
+      }, 300);
+      
+      showSuccess('📄 New page added successfully!');
+    }
+    
+    function addImageToPage(input, pageNum) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const page = document.getElementById(`page${pageNum}`);
+          const container = page.querySelector('.image-container');
+          const uploadArea = page.querySelector('.image-upload-area');
           
           uploadArea.style.display = 'none';
           
@@ -825,6 +1026,21 @@
       }
     }
     
+    // Auto-adjust font size based on content length
+    function adjustFontSize(element) {
+      const textLength = element.textContent.length;
+      
+      element.classList.remove('short-content', 'medium-content', 'long-content');
+      
+      if (textLength < 200) {
+        element.classList.add('short-content');
+      } else if (textLength < 800) {
+        element.classList.add('medium-content');
+      } else {
+        element.classList.add('long-content');
+      }
+    }
+    
     // Clear All
     function clearAll() {
       if (confirm('🗑️ Clear all content and pages? This cannot be undone.')) {
@@ -871,7 +1087,7 @@
           
           // Show upload areas where no images exist
           document.querySelectorAll('.page').forEach(page => {
-            const container = page.querySelector('.image-container') || page.querySelector('#imageContainer');
+            const container = page.querySelector('.image-container');
             const uploadArea = page.querySelector('.image-upload-area');
             if (container && container.children.length === 0 && uploadArea) {
               uploadArea.style.display = 'block';
@@ -956,7 +1172,12 @@
           setTimeout(() => {
             const text = this.textContent;
             this.textContent = text; // This removes formatting
+            adjustFontSize(this);
           }, 10);
+        });
+        
+        content.addEventListener('input', function() {
+          adjustFontSize(this);
         });
       });
       
@@ -1071,119 +1292,4 @@
     });
   </script>
 </body>
-</html>Click to add caption...</div>
-            <button onclick="removeImage(this)" style="
-              position: absolute; 
-              top: 15px; 
-              right: 15px; 
-              background: rgba(255, 77, 87, 0.9); 
-              border: none; 
-              border-radius: 50%; 
-              width: 35px; 
-              height: 35px; 
-              color: white; 
-              cursor: pointer;
-              font-size: 18px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              transition: all 0.3s ease;
-              box-shadow: 0 4px 15px rgba(255, 77, 87, 0.4);
-            ">×</button>
-          `;
-          
-          container.appendChild(imageDiv);
-          showSuccess('📸 Image added successfully!');
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-    
-    function removeImage(btn) {
-      btn.parentElement.remove();
-      const container = document.getElementById('imageContainer');
-      if (container.children.length === 0) {
-        container.previousElementSibling.style.display = 'block';
-      }
-    }
-    
-    // Add New Page
-    function addNewPage() {
-      pageCount++;
-      const wrapper = document.querySelector('.bulletin-wrapper');
-      
-      const newPage = document.createElement('div');
-      newPage.className = 'page';
-      newPage.id = `page${pageCount}`;
-      newPage.innerHTML = `
-        <div class="watermark-container">
-          <img src="Mking.png" alt="M.KING Watermark" class="watermark-image">
-        </div>
-        
-        <div class="header">
-          <div class="live-indicator">
-            <div class="live-dot"></div>
-            LIVE
-          </div>
-          <div class="timestamp">${document.querySelector('.timestamp').textContent}</div>
-          <div class="main-title">M.KING Global News</div>
-          <div class="subtitle">Continued Coverage • Page ${pageCount}</div>
-          <div class="divider"></div>
-        </div>
-        
-        <div class="content">
-          <div class="breaking-banner" style="display: none;">
-            🚨 BREAKING NEWS ALERT 🚨
-          </div>
-          
-          <div class="news-content" contenteditable="true" placeholder="Continue your story here..."></div>
-          
-          <div class="image-section">
-            <div class="image-upload-area" onclick="document.getElementById('imageInput${pageCount}').click()">
-              <div class="upload-icon">📸</div>
-              <div class="upload-text">Add Premium Image</div>
-              <div class="upload-subtext">Click to upload high-quality visuals</div>
-              <input type="file" id="imageInput${pageCount}" accept="image/*" style="display: none;" onchange="addImageToPage(this, ${pageCount})">
-            </div>
-            <div class="image-container"></div>
-          </div>
-        </div>
-        
-        <div class="footer">
-          <div class="footer-content">
-            <div>© 2024 M.KING Global News Network • Premium Edition • Page ${pageCount}</div>
-            <div class="social-links">
-              <a href="#" class="social-link">@mking_news</a>
-              <a href="#" class="social-link">Instagram</a>
-              <a href="#" class="social-link">Twitter</a>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      wrapper.appendChild(newPage);
-      
-      // Smooth scroll to new page
-      setTimeout(() => {
-        newPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        newPage.querySelector('.news-content').focus();
-      }, 300);
-      
-      showSuccess('📄 New page added successfully!');
-    }
-    
-    function addImageToPage(input, pageNum) {
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const page = document.getElementById(`page${pageNum}`);
-          const container = page.querySelector('.image-container');
-          const uploadArea = page.querySelector('.image-upload-area');
-          
-          uploadArea.style.display = 'none';
-          
-          const imageDiv = document.createElement('div');
-          imageDiv.style.position = 'relative';
-          imageDiv.innerHTML = `
-            <img src="${e.target.result}" alt="News Image" class="news-image">
-            <div class="image-caption" contenteditable="true">
+</html>
