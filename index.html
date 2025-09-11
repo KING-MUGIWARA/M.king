@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>M.KING News Bulletin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+  <title>M.KING Global News - Premium Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -14,255 +14,517 @@
     
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
       min-height: 100vh;
       padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      overflow-x: hidden;
     }
     
-    .bulletin-container {
-      width: 100%;
-      max-width: 600px;
-      position: relative;
-    }
-    
-    .bulletin {
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
-      position: relative;
-      min-height: 800px;
+    .bulletin-wrapper {
       display: flex;
       flex-direction: column;
+      align-items: center;
+      gap: 30px;
     }
     
-    /* Watermark Logo */
-    .watermark {
+    .page {
+      width: 100%;
+      max-width: 800px;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 
+        0 40px 100px rgba(0, 0, 0, 0.3),
+        0 20px 60px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      min-height: 1000px;
+      display: flex;
+      flex-direction: column;
+      transform: perspective(1000px) rotateX(2deg);
+      transition: transform 0.6s ease;
+      margin-bottom: 20px;
+    }
+    
+    .page:hover {
+      transform: perspective(1000px) rotateX(0deg) translateY(-10px);
+    }
+    
+    /* Luxury Watermark */
+    .watermark-container {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      opacity: 0.05;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 1;
-      font-size: 120px;
-      font-weight: 900;
-      color: #667eea;
       pointer-events: none;
-      font-family: 'Playfair Display', serif;
     }
     
-    /* Image Watermark Option */
     .watermark-image {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      opacity: 0.08;
-      z-index: 1;
-      width: 200px;
-      height: 200px;
+      width: 300px;
+      height: 300px;
       object-fit: contain;
-      pointer-events: none;
-      filter: grayscale(100%);
+      opacity: 0.08;
+      filter: grayscale(100%) contrast(150%);
+      transform: rotate(-15deg);
     }
     
-    /* Header with gradient */
+    /* Premium Header */
     .header {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 25%, 
+        #f093fb 50%, 
+        #f5576c 75%, 
+        #4facfe 100%);
+      background-size: 300% 300%;
+      animation: gradientShift 8s ease infinite;
       color: white;
-      padding: 30px 40px 25px;
+      padding: 40px 50px;
       text-align: center;
       position: relative;
-      z-index: 2;
+      z-index: 5;
+      overflow: hidden;
     }
     
-    .live-timestamp {
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      opacity: 0.9;
-      margin-bottom: 8px;
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 300%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+      animation: shine 3s ease-in-out infinite;
+    }
+    
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    
+    @keyframes shine {
+      0%, 100% { left: -100%; }
+      50% { left: 100%; }
+    }
+    
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 77, 87, 0.9);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(255, 77, 87, 0.3);
     }
     
-    .title {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 900;
-      margin-bottom: 8px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      letter-spacing: 0.5px;
-    }
-    
-    .subtitle {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      opacity: 0.9;
-      font-style: italic;
-    }
-    
-    /* Content area */
-    .content {
-      flex: 1;
-      padding: 35px 40px;
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .breaking-news {
-      background: linear-gradient(135deg, #ff4757, #ff6b7a);
-      color: white;
-      text-align: center;
-      padding: 12px 20px;
-      border-radius: 25px;
-      margin-bottom: 25px;
-      font-weight: 700;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      animation: pulse 2s ease-in-out infinite;
-      display: none;
-      font-family: 'Inter', sans-serif;
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
     }
     
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.2); }
+    }
+    
+    .timestamp {
+      font-size: 13px;
+      opacity: 0.9;
+      margin-bottom: 20px;
+      font-weight: 500;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .main-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      text-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 2px 5px rgba(0, 0, 0, 0.2);
+      letter-spacing: -1px;
+      line-height: 1.1;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      font-weight: 400;
+      opacity: 0.95;
+      font-style: italic;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .divider {
+      width: 80px;
+      height: 3px;
+      background: white;
+      margin: 20px auto 0;
+      border-radius: 2px;
+      opacity: 0.8;
+    }
+    
+    /* Content Area */
+    .content {
+      flex: 1;
+      padding: 50px;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+    
+    .breaking-banner {
+      background: linear-gradient(135deg, #ff4757, #ff6b7a, #ff9ff3);
+      color: white;
+      text-align: center;
+      padding: 16px 30px;
+      border-radius: 25px;
+      font-weight: 800;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      animation: breakingPulse 3s ease-in-out infinite;
+      box-shadow: 0 10px 30px rgba(255, 71, 87, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      display: none;
+    }
+    
+    @keyframes breakingPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(255, 71, 87, 0.3); }
+      50% { transform: scale(1.02); box-shadow: 0 15px 40px rgba(255, 71, 87, 0.4); }
     }
     
     .news-content {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.9) 0%, 
+        rgba(248, 250, 252, 0.95) 100%);
+      border: 2px solid transparent;
+      background-clip: padding-box;
+      border-radius: 16px;
+      padding: 40px;
+      min-height: 400px;
       font-family: 'Crimson Text', serif;
-      font-size: 16px;
-      line-height: 1.7;
+      font-size: 18px;
+      line-height: 1.8;
       color: #2c3e50;
-      min-height: 300px;
-      border: 2px dashed rgba(102, 126, 234, 0.2);
-      border-radius: 12px;
-      padding: 25px;
-      transition: all 0.3s ease;
-      flex: 1;
+      transition: all 0.4s ease;
       position: relative;
-      background: rgba(248, 249, 250, 0.3);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .news-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 16px;
+      z-index: -1;
+      padding: 2px;
+      mask: linear-gradient(white 0 0) content-box, linear-gradient(white 0 0);
+      mask-composite: exclude;
+      -webkit-mask-composite: xor;
     }
     
     .news-content:focus {
       outline: none;
-      border-color: #667eea;
-      background: rgba(248, 249, 250, 0.6);
-      box-shadow: 0 0 15px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        0 20px 40px rgba(0, 0, 0, 0.15);
     }
     
     .news-content:empty::before {
-      content: '✍️ Click here to write your news story...';
+      content: '✨ Click here to craft your story...';
+      position: absolute;
+      top: 40px;
+      left: 40px;
       color: #95a5a6;
       font-style: italic;
-      position: absolute;
-      top: 25px;
-      left: 25px;
       pointer-events: none;
       font-family: 'Inter', sans-serif;
-      font-size: 14px;
+      font-size: 16px;
     }
     
-    /* Image container */
-    .image-container {
-      margin: 20px 0;
+    .image-section {
       position: relative;
       z-index: 2;
     }
     
-    .news-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      margin-bottom: 10px;
-    }
-    
-    .image-caption {
-      text-align: center;
-      font-style: italic;
-      color: #666;
-      font-size: 13px;
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
-    }
-    
     .image-upload-area {
-      border: 2px dashed rgba(102, 126, 234, 0.4);
-      border-radius: 12px;
-      padding: 30px 20px;
+      border: 2px dashed #667eea;
+      border-radius: 16px;
+      padding: 40px 30px;
       text-align: center;
-      background: rgba(102, 126, 234, 0.05);
-      transition: all 0.3s ease;
+      background: linear-gradient(135deg, 
+        rgba(102, 126, 234, 0.05) 0%, 
+        rgba(118, 75, 162, 0.05) 100%);
+      transition: all 0.4s ease;
       cursor: pointer;
-      font-family: 'Inter', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .image-upload-area::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, 
+        transparent 40%, 
+        rgba(102, 126, 234, 0.1) 50%, 
+        transparent 60%);
+      transform: translateX(-100%);
+      transition: transform 0.8s ease;
+    }
+    
+    .image-upload-area:hover::before {
+      transform: translateX(100%);
     }
     
     .image-upload-area:hover {
-      border-color: #667eea;
-      background: rgba(102, 126, 234, 0.1);
+      border-color: #764ba2;
+      background: linear-gradient(135deg, 
+        rgba(102, 126, 234, 0.1) 0%, 
+        rgba(118, 75, 162, 0.1) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+    }
+    
+    .upload-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     
     .upload-text {
       color: #667eea;
       font-weight: 600;
-      margin-top: 8px;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    
+    .upload-subtext {
+      color: #95a5a6;
       font-size: 14px;
     }
     
-    /* Tools */
+    .news-image {
+      width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+    
+    .news-image:hover {
+      transform: scale(1.02);
+    }
+    
+    .image-caption {
+      text-align: center;
+      font-style: italic;
+      color: #6c757d;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      padding: 10px 20px;
+      background: rgba(248, 249, 250, 0.8);
+      border-radius: 20px;
+      display: inline-block;
+      margin: 0 auto;
+    }
+    
+    .image-container {
+      text-align: center;
+    }
+    
+    /* Luxury Tools */
     .tools {
       display: flex;
       justify-content: center;
-      gap: 12px;
-      margin-top: 25px;
+      gap: 15px;
+      margin-top: 40px;
       flex-wrap: wrap;
       position: relative;
-      z-index: 2;
+      z-index: 3;
     }
     
     .tool-btn {
-      padding: 10px 18px;
+      padding: 14px 24px;
       border: none;
-      border-radius: 20px;
+      border-radius: 25px;
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 13px;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      transition: all 0.4s ease;
+      font-size: 14px;
+      box-shadow: 
+        0 8px 25px rgba(102, 126, 234, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
       font-family: 'Inter', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tool-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .tool-btn:hover::before {
+      left: 100%;
     }
     
     .tool-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 15px 35px rgba(102, 126, 234, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
     
-    /* Footer */
+    .tool-btn:active {
+      transform: translateY(-1px) scale(1.02);
+    }
+    
+    /* Elegant Footer */
     .footer {
       text-align: center;
-      padding: 20px 40px;
-      background: #f8f9fa;
+      padding: 30px 50px;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
       color: #6c757d;
-      font-size: 11px;
+      font-size: 12px;
       position: relative;
       z-index: 2;
       font-family: 'Inter', sans-serif;
-      border-top: 1px solid #e9ecef;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
     }
     
-    /* Print Styles for Instagram-ready format */
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .social-link {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .social-link:hover {
+      color: #764ba2;
+      transform: translateY(-1px);
+    }
+    
+    /* Success Notification Styles */
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .page {
+        max-width: 100%;
+        margin: 0 10px 20px;
+        transform: none;
+        border-radius: 15px;
+      }
+      
+      .page:hover {
+        transform: translateY(-5px);
+      }
+      
+      .header {
+        padding: 30px 30px;
+      }
+      
+      .main-title {
+        font-size: 36px;
+      }
+      
+      .content {
+        padding: 30px 25px;
+      }
+      
+      .news-content {
+        padding: 25px;
+        font-size: 16px;
+      }
+      
+      .tools {
+        gap: 10px;
+      }
+      
+      .tool-btn {
+        padding: 12px 18px;
+        font-size: 13px;
+      }
+      
+      .footer {
+        padding: 25px 30px;
+      }
+      
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+    
+    /* Print Styles - Multi-page Support */
     @media print {
       * {
         -webkit-print-color-adjust: exact !important;
@@ -276,168 +538,127 @@
         margin: 0 !important;
       }
       
-      .bulletin-container {
+      .page {
         max-width: none !important;
-        width: 600px !important;
-        margin: 0 auto;
-      }
-      
-      .bulletin {
-        box-shadow: none !important;
-        border: 1px solid #ddd !important;
-        border-radius: 0 !important;
+        width: 100% !important;
         margin: 0 !important;
-        min-height: auto !important;
-        max-height: 842px; /* A4 height in pixels at 96 DPI */
-        overflow: hidden;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        transform: none !important;
+        page-break-after: always;
+        min-height: 100vh;
       }
       
-      .watermark {
-        opacity: 0.08 !important;
+      .page:last-child {
+        page-break-after: auto;
       }
       
       .header {
         background: linear-gradient(135deg, #667eea, #764ba2) !important;
-        color: white !important;
-        padding: 25px 35px 20px !important;
-      }
-      
-      .title {
-        font-size: 26px !important;
+        padding: 30px 40px !important;
       }
       
       .content {
-        padding: 25px 35px !important;
+        padding: 40px !important;
+      }
+      
+      .tools, .image-upload-area {
+        display: none !important;
       }
       
       .news-content {
-        min-height: 250px !important;
+        min-height: 300px !important;
+        background: white !important;
         border: 1px solid #dee2e6 !important;
-        background: rgba(248, 249, 250, 0.5) !important;
-        font-size: 15px !important;
-        page-break-inside: avoid;
       }
       
       .news-content:empty::before {
         display: none;
       }
       
-      .tools,
-      .image-upload-area {
-        display: none !important;
+      .watermark-image {
+        opacity: 0.05 !important;
       }
       
-      .footer {
-        padding: 15px 35px !important;
-        font-size: 10px !important;
-      }
-      
-      .news-image {
-        height: 180px !important;
-        page-break-inside: avoid;
-      }
-      
-      .breaking-news {
+      .breaking-banner {
         background: linear-gradient(135deg, #ff4757, #ff6b7a) !important;
-        color: white !important;
-        margin-bottom: 20px !important;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .bulletin-container {
-        max-width: 100%;
-      }
-      
-      .header {
-        padding: 25px 30px 20px;
-      }
-      
-      .content {
-        padding: 30px 25px;
-      }
-      
-      .footer {
-        padding: 20px 25px;
-      }
-      
-      .title {
-        font-size: 24px;
-      }
-      
-      .tools {
-        gap: 8px;
-      }
-      
-      .tool-btn {
-        padding: 8px 14px;
-        font-size: 12px;
+        animation: none !important;
       }
     }
   </style>
 </head>
 <body>
-  <div class="bulletin-container">
-    <div class="bulletin">
-      <!-- Watermark Options -->
+  <div class="bulletin-wrapper">
+    <!-- First Page -->
+    <div class="page" id="page1">
+      <!-- Watermark -->
+      <div class="watermark-container">
+        <img src="" alt="M.KING Watermark" class="watermark-image" id="watermarkImg">
+      </div>
       
-      <!-- OPTION 1: Text Watermark (current) -->
-      <div class="watermark" id="textWatermark">M.KING</div>
-      
-      <!-- OPTION 2: Image Watermark (hidden by default) -->
-      <!-- Uncomment the line below and add your image -->
-      <img src="Mking.png" alt="Watermark" class="watermark-image" id="imageWatermark">
-      
-      <!-- Header -->
+      <!-- Premium Header -->
       <div class="header">
-        <div class="live-timestamp">
-          <span id="currentDateTime">LIVE • Thursday, September 11, 2025 • 12:35 AM</span>
+        <div class="live-indicator">
+          <div class="live-dot"></div>
+          LIVE
         </div>
-        <div class="title">M.KING Global News</div>
-        <div class="subtitle">Your trusted source for breaking news and updates</div>
+        <div class="timestamp" id="currentDateTime">Thursday, September 11, 2025 • 12:35 AM</div>
+        <div class="main-title">M.KING Global News</div>
+        <div class="subtitle">Your premier source for world-class journalism and breaking news coverage</div>
+        <div class="divider"></div>
       </div>
       
       <!-- Content -->
       <div class="content">
-        <div class="breaking-news" id="breakingBanner">
-          🚨 BREAKING NEWS 🚨
+        <div class="breaking-banner" id="breakingBanner">
+          🚨 BREAKING NEWS ALERT 🚨
         </div>
         
-        <div class="news-content" 
-             contenteditable="true" 
-             id="newsContent"></div>
+        <div class="news-content" contenteditable="true" id="newsContent"></div>
         
-        <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
-          <div style="font-size: 32px; color: #667eea;">📷</div>
-          <div class="upload-text">Click to add image</div>
-          <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="addNewsImage(this)">
+        <div class="image-section">
+          <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
+            <div class="upload-icon">📸</div>
+            <div class="upload-text">Add Premium Image</div>
+            <div class="upload-subtext">Click to upload high-quality visuals</div>
+            <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="addNewsImage(this)">
+          </div>
+          <div id="imageContainer" class="image-container"></div>
         </div>
-        
-        <div class="image-container" id="imageContainer"></div>
         
         <div class="tools">
-          <button class="tool-btn" onclick="addBreakingNews()">🚨 Breaking</button>
-          <button class="tool-btn" onclick="addTimestamp()">⏰ Timestamp</button>
-          <button class="tool-btn" onclick="document.getElementById('imageInput').click()">📷 Image</button>
-          <button class="tool-btn" onclick="document.getElementById('watermarkInput').click()">🏷️ Watermark</button>
-          <button class="tool-btn" onclick="saveContent()">💾 Save</button>
-          <button class="tool-btn" onclick="printBulletin()">📱 Download</button>
-          <button class="tool-btn" onclick="clearContent()">🗑️ Clear</button>
+          <button class="tool-btn" onclick="addBreakingNews()">🚨 Breaking Alert</button>
+          <button class="tool-btn" onclick="addTimestamp()">⏰ Add Timestamp</button>
+          <button class="tool-btn" onclick="document.getElementById('imageInput').click()">📸 Add Image</button>
+          <button class="tool-btn" onclick="document.getElementById('watermarkInput').click()">🏷️ Set Watermark</button>
+          <button class="tool-btn" onclick="addNewPage()">📄 New Page</button>
+          <button class="tool-btn" onclick="saveContent()">💾 Save Draft</button>
+          <button class="tool-btn" onclick="printBulletin()">📱 Download PDF</button>
+          <button class="tool-btn" onclick="clearAll()">🗑️ Clear All</button>
         </div>
         
-        <!-- Hidden watermark upload -->
-        <input type="file" id="watermarkInput" accept="image/*" style="display: none;" onchange="setWatermarkImage(this)">
+        <input type="file" id="watermarkInput" accept="image/*" style="display: none;" onchange="setWatermark(this)">
       </div>
       
-      <!-- Footer -->
+      <!-- Elegant Footer -->
       <div class="footer">
-        <p>© 2024 M.KING Global News Network | Follow @mking_news</p>
+        <div class="footer-content">
+          <div>© 2024 M.KING Global News Network • Premium Edition</div>
+          <div class="social-links">
+            <a href="#" class="social-link">@mking_news</a>
+            <a href="#" class="social-link">Instagram</a>
+            <a href="#" class="social-link">Twitter</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Update date and time
+    let pageCount = 1;
+    let watermarkSrc = '';
+    
+    // Update DateTime
     function updateDateTime() {
       const now = new Date();
       const options = { 
@@ -450,42 +671,58 @@
         hour12: true
       };
       
-      const formatted = now.toLocaleDateString('en-US', options).replace(',', ' •') + ' • ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-      document.getElementById('currentDateTime').textContent = 'LIVE • ' + formatted;
+      const dateStr = now.toLocaleDateString('en-US', options);
+      const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+      
+      document.querySelectorAll('.timestamp').forEach(el => {
+        el.textContent = `${dateStr} • ${timeStr}`;
+      });
     }
     
-    // Update time every minute
     setInterval(updateDateTime, 60000);
     updateDateTime();
     
-    // Breaking news functionality
+    // Set Watermark
+    function setWatermark(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          watermarkSrc = e.target.result;
+          document.querySelectorAll('.watermark-image').forEach(img => {
+            img.src = watermarkSrc;
+          });
+          
+          showSuccess('✨ Watermark set successfully!');
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    
+    // Breaking News Toggle
     function addBreakingNews() {
-      const banner = document.getElementById('breakingBanner');
-      banner.style.display = banner.style.display === 'none' ? 'block' : 'none';
+      const banners = document.querySelectorAll('.breaking-banner');
+      banners.forEach(banner => {
+        banner.style.display = banner.style.display === 'none' ? 'block' : 'none';
+      });
       
-      if (banner.style.display === 'block') {
+      if (banners[0].style.display === 'block') {
         const content = document.getElementById('newsContent');
-        const breakingText = `🚨 BREAKING: `;
         if (!content.textContent.includes('🚨 BREAKING:')) {
-          content.textContent = breakingText + content.textContent;
+          content.textContent = '🚨 BREAKING: ' + content.textContent;
         }
       }
     }
     
-    // Add timestamp to content
+    // Add Timestamp
     function addTimestamp() {
       const content = document.getElementById('newsContent');
       const now = new Date();
-      const timestamp = `\n\n[${now.toLocaleString()}] `;
+      const timestamp = `\n\n[UPDATE - ${now.toLocaleString()}] `;
       
-      if (content.textContent.trim()) {
-        content.textContent += timestamp;
-      } else {
-        content.textContent = `[${now.toLocaleString()}] `;
-      }
+      content.textContent += timestamp;
       content.focus();
       
-      // Place cursor at end
+      // Cursor at end
       const range = document.createRange();
       const sel = window.getSelection();
       range.selectNodeContents(content);
@@ -494,90 +731,369 @@
       sel.addRange(range);
     }
     
-    // Save content
-    function saveContent() {
-      const content = document.getElementById('newsContent').textContent;
-      localStorage.setItem('newsContent', content);
-      
-      const btn = event.target;
-      const originalText = btn.textContent;
-      btn.textContent = '✅ Saved!';
-      btn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
-      
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-      }, 2000);
-    }
-    
-    // Clear content
-    function clearContent() {
-      if (confirm('Clear all content?')) {
-        document.getElementById('newsContent').textContent = '';
-        document.getElementById('breakingBanner').style.display = 'none';
-        document.getElementById('imageContainer').innerHTML = '';
+    // Add News Image
+    function addNewsImage(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const container = document.getElementById('imageContainer');
+          const uploadArea = container.previousElementSibling;
+          
+          uploadArea.style.display = 'none';
+          
+          const imageDiv = document.createElement('div');
+          imageDiv.style.position = 'relative';
+          imageDiv.innerHTML = `
+            <img src="${e.target.result}" alt="News Image" class="news-image">
+            <div class="image-caption" contenteditable="true">Click to add caption...</div>
+            <button onclick="removeImageFromPage(this, ${pageNum})" style="
+              position: absolute; 
+              top: 15px; 
+              right: 15px; 
+              background: rgba(255, 77, 87, 0.9); 
+              border: none; 
+              border-radius: 50%; 
+              width: 35px; 
+              height: 35px; 
+              color: white; 
+              cursor: pointer;
+              font-size: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: all 0.3s ease;
+              box-shadow: 0 4px 15px rgba(255, 77, 87, 0.4);
+            ">×</button>
+          `;
+          
+          container.appendChild(imageDiv);
+          showSuccess('📸 Image added successfully!');
+        };
+        reader.readAsDataURL(input.files[0]);
       }
     }
     
-    // Print bulletin (optimized for Instagram)
+    function removeImageFromPage(btn, pageNum) {
+      btn.parentElement.remove();
+      const page = document.getElementById(`page${pageNum}`);
+      const container = page.querySelector('.image-container');
+      if (container.children.length === 0) {
+        page.querySelector('.image-upload-area').style.display = 'block';
+      }
+    }
+    
+    // Save Content
+    function saveContent() {
+      const pages = document.querySelectorAll('.page');
+      const contentData = [];
+      
+      pages.forEach((page, index) => {
+        const content = page.querySelector('.news-content').textContent;
+        contentData.push({
+          page: index + 1,
+          content: content,
+          hasBreaking: page.querySelector('.breaking-banner').style.display === 'block'
+        });
+      });
+      
+      // Note: Using variables instead of localStorage for compatibility
+      window.savedContent = JSON.stringify(contentData);
+      window.savedWatermark = watermarkSrc;
+      
+      showSuccess('💾 Content saved successfully!');
+    }
+    
+    // Load Content
+    function loadContent() {
+      if (window.savedWatermark) {
+        watermarkSrc = window.savedWatermark;
+        document.querySelectorAll('.watermark-image').forEach(img => {
+          img.src = watermarkSrc;
+        });
+      }
+      
+      if (window.savedContent) {
+        const contentData = JSON.parse(window.savedContent);
+        contentData.forEach((data, index) => {
+          if (index === 0) {
+            document.getElementById('newsContent').textContent = data.content;
+            if (data.hasBreaking) {
+              document.getElementById('breakingBanner').style.display = 'block';
+            }
+          }
+        });
+      }
+    }
+    
+    // Clear All
+    function clearAll() {
+      if (confirm('🗑️ Clear all content and pages? This cannot be undone.')) {
+        // Keep only first page
+        const wrapper = document.querySelector('.bulletin-wrapper');
+        const pages = wrapper.querySelectorAll('.page');
+        
+        for (let i = 1; i < pages.length; i++) {
+          pages[i].remove();
+        }
+        
+        // Clear first page content
+        document.getElementById('newsContent').textContent = '';
+        document.getElementById('breakingBanner').style.display = 'none';
+        document.getElementById('imageContainer').innerHTML = '';
+        document.querySelector('.image-upload-area').style.display = 'block';
+        
+        pageCount = 1;
+        window.savedContent = null;
+        
+        showSuccess('🗑️ All content cleared!');
+      }
+    }
+    
+    // Print Bulletin
     function printBulletin() {
-      // Hide tools and upload area for clean print
-      const tools = document.querySelector('.tools');
-      const uploadArea = document.querySelector('.image-upload-area');
+      // Hide all interactive elements
+      document.querySelectorAll('.tools, .image-upload-area').forEach(el => {
+        el.style.display = 'none';
+      });
       
-      tools.style.display = 'none';
-      uploadArea.style.display = 'none';
-      
-      // Update timestamp in header for print
+      // Update all timestamps
       updateDateTime();
       
+      // Print with delay
       setTimeout(() => {
         window.print();
         
         // Restore elements after printing
         setTimeout(() => {
-          tools.style.display = 'flex';
-          if (document.getElementById('imageContainer').children.length === 0) {
-            uploadArea.style.display = 'block';
-          }
-        }, 500);
-      }, 100);
+          document.querySelectorAll('.tools').forEach(el => {
+            el.style.display = 'flex';
+          });
+          
+          // Show upload areas where no images exist
+          document.querySelectorAll('.page').forEach(page => {
+            const container = page.querySelector('.image-container') || page.querySelector('#imageContainer');
+            const uploadArea = page.querySelector('.image-upload-area');
+            if (container && container.children.length === 0 && uploadArea) {
+              uploadArea.style.display = 'block';
+            }
+          });
+        }, 1000);
+      }, 500);
+      
+      showSuccess('📱 Preparing for download...');
     }
     
-    // Add news image
-    function addNewsImage(input) {
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const imageContainer = document.getElementById('imageContainer');
-          const uploadArea = document.querySelector('.image-upload-area');
+    // Success Notification
+    function showSuccess(message) {
+      // Remove existing notifications
+      document.querySelectorAll('.success-notification').forEach(n => n.remove());
+      
+      const notification = document.createElement('div');
+      notification.className = 'success-notification';
+      notification.textContent = message;
+      notification.style.cssText = `
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
+        z-index: 10000;
+        animation: slideIn 0.5s ease;
+        font-family: 'Inter', sans-serif;
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.5s ease forwards';
+        setTimeout(() => {
+          notification.remove();
+        }, 500);
+      }, 3000);
+    }
+    
+    // Auto-save every 30 seconds
+    setInterval(() => {
+      const content = document.getElementById('newsContent').textContent.trim();
+      if (content) {
+        saveContent();
+      }
+    }, 30000);
+    
+    // Load saved content on page load
+    window.addEventListener('load', loadContent);
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+          case 's':
+            e.preventDefault();
+            saveContent();
+            break;
+          case 'p':
+            e.preventDefault();
+            printBulletin();
+            break;
+          case 'n':
+            e.preventDefault();
+            addNewPage();
+            break;
+        }
+      }
+    });
+    
+    // Enhanced focus effects
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.news-content').forEach(content => {
+        content.addEventListener('paste', function(e) {
+          // Clean pasted content
+          setTimeout(() => {
+            const text = this.textContent;
+            this.textContent = text; // This removes formatting
+          }, 10);
+        });
+      });
+      
+      // Add smooth scrolling behavior
+      document.querySelectorAll('.page').forEach((page, index) => {
+        page.addEventListener('click', function(e) {
+          if (e.target === this || e.target.classList.contains('watermark-container')) {
+            this.querySelector('.news-content').focus();
+          }
+        });
+      });
+    });
+    
+    // Enhanced image handling
+    function handleImageError() {
+      const images = document.querySelectorAll('.news-image, .watermark-image');
+      images.forEach(img => {
+        img.addEventListener('error', function() {
+          this.style.display = 'none';
+          showSuccess('⚠️ Image failed to load');
+        });
+      });
+    }
+    
+    // Initialize on load
+    window.addEventListener('load', function() {
+      loadContent();
+      handleImageError();
+      
+      // Welcome message
+      setTimeout(() => {
+        showSuccess('✨ Welcome to M.KING Global News Premium Edition!');
+      }, 1000);
+    });
+    
+    // Prevent form submission on Enter in contenteditable
+    document.addEventListener('keydown', function(e) {
+      if (e.target.contentEditable === 'true' && e.key === 'Enter') {
+        e.preventDefault();
+        document.execCommand('insertLineBreak');
+      }
+    });
+    
+    // Auto-resize text areas based on content
+    function autoResize() {
+      document.querySelectorAll('.news-content').forEach(content => {
+        content.addEventListener('input', function() {
+          // Auto-expand content area if needed
+          if (this.scrollHeight > this.offsetHeight) {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+          }
+        });
+      });
+    }
+    
+    // Initialize auto-resize
+    document.addEventListener('DOMContentLoaded', autoResize);
+    
+    // Add drag and drop functionality for images
+    document.addEventListener('DOMContentLoaded', function() {
+      const uploadAreas = document.querySelectorAll('.image-upload-area');
+      
+      uploadAreas.forEach(area => {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+          area.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+          area.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+          area.addEventListener(eventName, unhighlight, false);
+        });
+        
+        area.addEventListener('drop', handleDrop, false);
+      });
+      
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      
+      function highlight(e) {
+        e.target.classList.add('drag-over');
+        e.target.style.borderColor = '#764ba2';
+        e.target.style.backgroundColor = 'rgba(118, 75, 162, 0.1)';
+      }
+      
+      function unhighlight(e) {
+        e.target.classList.remove('drag-over');
+        e.target.style.borderColor = '#667eea';
+        e.target.style.backgroundColor = 'rgba(102, 126, 234, 0.05)';
+      }
+      
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        
+        if (files.length > 0 && files[0].type.startsWith('image/')) {
+          const input = e.target.querySelector('input[type="file"]') || 
+                        e.target.closest('.image-upload-area').querySelector('input[type="file"]');
           
-          // Hide upload area
-          uploadArea.style.display = 'none';
-          
-          const imageDiv = document.createElement('div');
-          imageDiv.innerHTML = `
-            <img src="${e.target.result}" alt="News Image" class="news-image">
-            <div class="image-caption" contenteditable="true">Click to add caption...</div>
+          if (input) {
+            input.files = files;
+            const event = new Event('change', { bubbles: true });
+            input.dispatchEvent(event);
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>Click to add caption...</div>
             <button onclick="removeImage(this)" style="
               position: absolute; 
-              top: 10px; 
-              right: 10px; 
-              background: rgba(255,77,87,0.9); 
+              top: 15px; 
+              right: 15px; 
+              background: rgba(255, 77, 87, 0.9); 
               border: none; 
               border-radius: 50%; 
-              width: 28px; 
-              height: 28px; 
+              width: 35px; 
+              height: 35px; 
               color: white; 
               cursor: pointer;
-              font-size: 14px;
+              font-size: 18px;
               display: flex;
               align-items: center;
               justify-content: center;
+              transition: all 0.3s ease;
+              box-shadow: 0 4px 15px rgba(255, 77, 87, 0.4);
             ">×</button>
           `;
-          imageDiv.style.position = 'relative';
-          imageContainer.appendChild(imageDiv);
+          
+          container.appendChild(imageDiv);
+          showSuccess('📸 Image added successfully!');
         };
         reader.readAsDataURL(input.files[0]);
       }
@@ -585,63 +1101,89 @@
     
     function removeImage(btn) {
       btn.parentElement.remove();
-      if (document.getElementById('imageContainer').children.length === 0) {
-        document.querySelector('.image-upload-area').style.display = 'block';
+      const container = document.getElementById('imageContainer');
+      if (container.children.length === 0) {
+        container.previousElementSibling.style.display = 'block';
       }
     }
     
-    // Load saved content
-    window.addEventListener('load', () => {
-      const savedContent = localStorage.getItem('newsContent');
-      if (savedContent) {
-        document.getElementById('newsContent').textContent = savedContent;
-      }
-    });
+    // Add New Page
+    function addNewPage() {
+      pageCount++;
+      const wrapper = document.querySelector('.bulletin-wrapper');
+      
+      const newPage = document.createElement('div');
+      newPage.className = 'page';
+      newPage.id = `page${pageCount}`;
+      newPage.innerHTML = `
+        <div class="watermark-container">
+          <img src="Mking.png" alt="M.KING Watermark" class="watermark-image">
+        </div>
+        
+        <div class="header">
+          <div class="live-indicator">
+            <div class="live-dot"></div>
+            LIVE
+          </div>
+          <div class="timestamp">${document.querySelector('.timestamp').textContent}</div>
+          <div class="main-title">M.KING Global News</div>
+          <div class="subtitle">Continued Coverage • Page ${pageCount}</div>
+          <div class="divider"></div>
+        </div>
+        
+        <div class="content">
+          <div class="breaking-banner" style="display: none;">
+            🚨 BREAKING NEWS ALERT 🚨
+          </div>
+          
+          <div class="news-content" contenteditable="true" placeholder="Continue your story here..."></div>
+          
+          <div class="image-section">
+            <div class="image-upload-area" onclick="document.getElementById('imageInput${pageCount}').click()">
+              <div class="upload-icon">📸</div>
+              <div class="upload-text">Add Premium Image</div>
+              <div class="upload-subtext">Click to upload high-quality visuals</div>
+              <input type="file" id="imageInput${pageCount}" accept="image/*" style="display: none;" onchange="addImageToPage(this, ${pageCount})">
+            </div>
+            <div class="image-container"></div>
+          </div>
+        </div>
+        
+        <div class="footer">
+          <div class="footer-content">
+            <div>© 2024 M.KING Global News Network • Premium Edition • Page ${pageCount}</div>
+            <div class="social-links">
+              <a href="#" class="social-link">@mking_news</a>
+              <a href="#" class="social-link">Instagram</a>
+              <a href="#" class="social-link">Twitter</a>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      wrapper.appendChild(newPage);
+      
+      // Smooth scroll to new page
+      setTimeout(() => {
+        newPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        newPage.querySelector('.news-content').focus();
+      }, 300);
+      
+      showSuccess('📄 New page added successfully!');
+    }
     
-    // Auto-save
-    setInterval(() => {
-      const content = document.getElementById('newsContent').textContent;
-      if (content.trim()) {
-        localStorage.setItem('newsContent', content);
-      }
-    }, 30000);
-    
-    // Watermark image functionality
-    function setWatermarkImage(input) {
+    function addImageToPage(input, pageNum) {
       if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          // Hide text watermark
-          const textWatermark = document.getElementById('textWatermark');
-          textWatermark.style.display = 'none';
+          const page = document.getElementById(`page${pageNum}`);
+          const container = page.querySelector('.image-container');
+          const uploadArea = page.querySelector('.image-upload-area');
           
-          // Create or update image watermark
-          let imageWatermark = document.getElementById('imageWatermark');
-          if (!imageWatermark) {
-            imageWatermark = document.createElement('img');
-            imageWatermark.id = 'imageWatermark';
-            imageWatermark.className = 'watermark-image';
-            imageWatermark.alt = 'Watermark';
-            document.querySelector('.bulletin').appendChild(imageWatermark);
-          }
+          uploadArea.style.display = 'none';
           
-          imageWatermark.src = e.target.result;
-          imageWatermark.style.display = 'block';
-          
-          // Visual feedback
-          const btn = event.target.previousElementSibling;
-          const originalText = btn.textContent;
-          btn.textContent = '✅ Set!';
-          btn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
-          
-          setTimeout(() => {
-            btn.textContent = originalText;
-            btn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-          }, 2000);
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-  </script>
-</body>
-</html>
+          const imageDiv = document.createElement('div');
+          imageDiv.style.position = 'relative';
+          imageDiv.innerHTML = `
+            <img src="${e.target.result}" alt="News Image" class="news-image">
+            <div class="image-caption" contenteditable="true">
